@@ -10,7 +10,7 @@ Results from the paper are in `Figures/Main` and `Figures/SI`. Raw data is publi
 
 ### Data sources
 - Temperature data file "X" can be downloaded from: 
-- HDI raster data from Kummu et al. (2018) available at https://www.nature.com/articles/sdata20184#Sec14
+- HDI raster data from Kummu et al. (2018) available at [Dryad Data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.dk1j0)
 
 
 ### Replicating results
