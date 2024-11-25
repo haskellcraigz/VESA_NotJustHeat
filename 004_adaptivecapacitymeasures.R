@@ -1,5 +1,5 @@
 ######################################
-## ANALYSIS & COMPARISON OF HDI AND OTHER MEASURES OF A
+## LOADING HDI AND OTHER MEASURES OF A
 ## Date Created: Nov. 25th 2024
 ## Last Modified: Nov. 25th 2024
 #####################################
@@ -55,7 +55,9 @@ names(hdi_extracted_nuts3) <- str_replace(names(hdi_extracted_nuts3), "mean\\.",
 
 # pivot longer 
 hdi_long_nuts3 <- hdi_extracted_nuts3%>%
-  pivot_longer(cols = c(HDI_1990:HDI_2015), names_to = c("year"), values_to = "HDI") 
+  pivot_longer(cols = c(HDI_1990:HDI_2015), names_to = c("year"), values_to = "HDI") %>%
+  mutate(year = str_replace_all(year, "HDI_", "")) %>% 
+  mutate(year = as.numeric(year))
 
 # Keep only the values for 2014 to use in VESA calculation
 
@@ -64,14 +66,16 @@ hdi_long_nuts3_2014 <- hdi_long_nuts3 %>%
 
 
 ## remove datafiles used for processing -------------
-rm("hdi_extracted_nuts3", "hdi_extracted_nuts2")
+rm("hdi_extracted_nuts3", "hdi_extracted_nuts2", "hdi_raster")
 
 # load GDP ----------------------
 print("loading GDP...")
 gdp <- list(GDP_pc = get_eurostat("nama_10r_2gdp",
                                   time_format = "num",
                                   filters = list(unit="EUR_HAB_EU27_2020")))
-
+# unlist and clean
+gdp <- gdp[[1]] %>%
+  select(geo, year = time, GDP = values)
 
 
 # load life-expectancy ----------------------------
@@ -79,10 +83,10 @@ print("loading life expectancy...")
 life_expect <- get_eurostat("tgs00101") #life expectancy at birth from Eurostat
 
 
-life_expect = life_expect %>% 
+life_expect <- life_expect %>% 
   filter(sex == "T") %>% 
   select(geo, TIME_PERIOD, values) %>% 
-  rename(year = TIME_PERIOD, life_expectancy = values)
+  mutate(year = lubridate::year(TIME_PERIOD), life_expectancy = values)
 
 
 

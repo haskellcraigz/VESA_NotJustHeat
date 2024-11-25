@@ -22,10 +22,11 @@ source("003_populationdata.R")
 # load and clean adaptive capacity data ------------
 source("004_adaptivecapacitymeasures.R")
 
-
 # Comparison of measures for A ----------
+source("005_comparingA.R")
 
 # Computing V=ES and V=ESA -----------
+# based on nuts3_ESA_rank_comparison.R file
 
 # Scripts for creating temperature figures -----------
 
