@@ -27,6 +27,8 @@ Results from the paper are in `Figures/Main` and `Figures/SI`. Raw data is publi
    - Navigate to `HAC` folder and run scripts to generate HAC index as a .csv 
    - 
 4. In Home folder, run `Main.R`
+   - Script 00_ does [x]
+   - Script 01_ does [y]
 
 
 ## Computational environment
