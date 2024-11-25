@@ -1,3 +1,14 @@
+
+##################
+# Data and Figures
+Data/*
+
+Figures/*
+
+
+#####################
+# R session files
+
 # History files
 .Rhistory
 .Rapp.history
