@@ -18,8 +18,8 @@ Results from the paper are in `Figures/Main` and `Figures/SI`. Raw data is publi
 ### Data sources
 - Temperature data file "X" can be downloaded from: 
 - HDI raster data from Kummu et al. (2018) available at [Dryad Data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.dk1j0)
-- NUTS shapefiles from
-- Country shapefiles from
+- NUTS shapefiles for the year 2021 (EPSG:4326) from Eurostat available at [Eurostat_NUTS] (https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics)
+- Country shapefiles for the year 2020 (EPSG:4326)from Eurostat available at [Eurostat_Country] (https://ec.europa.eu/eurostat/web/gisco/geodata/administrative-units/countries)
 
 ### Replicating results
 1. Download raw data files listed under "Data sources" and add into `Data` folder. Note: pre-generated excel (.xlsx) files with the Health Adaptive Capacity (HAC) Index is already saved in this folder, code to replicate the HAC is available in the `HAC` folder. 
