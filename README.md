@@ -18,14 +18,15 @@ Results from the paper are in `Figures/Main` and `Figures/SI`. Raw data is publi
 ### Data sources
 - Temperature data file "X" can be downloaded from: 
 - HDI raster data from Kummu et al. (2018) available at [Dryad Data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.dk1j0)
-
+- NUTS shapefiles from
+- Country shapefiles from
 
 ### Replicating results
-1. Dowload raw data and save into `Data` folder
-2. Install packages
-3. Generate HAC
-   - Navigate to `HAC` folder and run scripts to generate HAC index as a .csv 
-   - 
+1. Download raw data files listed under "Data sources" and add into `Data` folder. Note: pre-generated excel (.xlsx) files with the Health Adaptive Capacity (HAC) Index is already saved in this folder, code to replicate the HAC is available in the `HAC` folder. 
+2. Install packages listed in `000_packages.R`
+3. Generate HAC (OPTIONAL)
+   - Navigate to `HAC` folder and run script to generate HAC index  
+   - Copy the data files containing the HAC index into the `Data` folder
 4. In Home folder, run `Main.R`
    - Script 00_ does [x]
    - Script 01_ does [y]
