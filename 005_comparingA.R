@@ -1,14 +1,19 @@
 ######################################
 ## ANALYSIS & COMPARISON OF HDI AND OTHER MEASURES OF A
 ## Date Created: Nov. 25th 2024
-## Last Modified: Nov. 25th 2024
+## Last Modified: Dec. 10th 2024
 #####################################
 
 # join all datasets  ---------
+#start with life-expectancy since this covers the full range of years
+all_df <- left_join(life_expect, gdp)
+all_df <- left_join(all_df, HAC_long)
+all_df <- left_join(all_df, hdi_long_nuts2, by = c("geo" = "NUTS_ID", "year"))
 
-all_df <- left_join(HAC_long, hdi_long_nuts2, by = c("geo" = "NUTS_ID", "year"))
-all_df <- left_join(all_df, gdp)
-all_df <- left_join(all_df, life_expect)
+#all_df <- all_df %>% mutate(geo = NUTS_ID)
+
+
+
 
 
 # calculate correlation coefficients -------------
@@ -41,8 +46,20 @@ correlations <- all_df %>%
   select(year, ends_with("cor")) %>%
   unique()
 
-# exporting correlations table
-#write.csv(correlations, "R/DATA-PROCESSED/ACmetric_corrtable_v2.csv")
+# summarize correlations table
+mean_correlations <- correlations %>% 
+  ungroup %>%
+  summarize(across(everything(), ~ mean(.x, na.rm = TRUE)))
+
+min_correlations <- correlations %>% 
+  ungroup %>%
+  summarize(across(everything(), ~ min(.x, na.rm = TRUE)))
+
+max_correlations <- correlations %>% 
+  ungroup %>%
+  summarize(across(everything(), ~ max(.x, na.rm = TRUE)))
+
+
 
 
 # WITHIN/BETWEEN region variation in HDI --------------------------------

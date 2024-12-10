@@ -93,8 +93,8 @@ life_expect <- life_expect %>%
 # load HAC index --------------------------
 print("loading HAC index...")
 
-HAC_2012_2016 <- read_excel("Data/HAC_Index_merged_data_2012_2016.xlsx")
-HAC_2017_2021 <- read_excel("Data/HAC_Index_merged_data_2017_2021.xlsx")
+HAC_2012_2016 <- read_excel("Data/HAC_2012_2016.xlsx")
+HAC_2017_2021 <- read_excel("Data/HAC_2017_2021.xlsx")
 
 ## clean ----------------
 # pull out means from each 5 year period dataset and join together
