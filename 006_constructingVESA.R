@@ -27,7 +27,8 @@ VESA_yearly <- data %>%
          prop_GE65, prop_GE75, #proportion of population >65 and >75
          HDI) %>% #HDI for each nuts3 region taken from the 2014 value
   # A = 1 - HDI so scaling is same direction for all components
-  mutate(A = 1 - HDI, A_scaled = A/mean(A, na.rm = T)) 
+  mutate(A = 1 - HDI, 
+         A_scaled = A/mean(A, na.rm = T)) 
 
 
 

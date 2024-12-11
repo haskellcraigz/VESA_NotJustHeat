@@ -14,7 +14,7 @@ country_eu.shp <- read_sf("Data/CNTR_RG_10M_2020_4326.shp")
 nuts3.shp = nuts.shp %>% 
   filter(LEVL_CODE == 3) %>% 
   filter(CNTR_CODE != "TR") %>% 
-  select(NUTS_ID, geometry)
+  dplyr::select(NUTS_ID, geometry)
 
 nuts3.shp$area <- st_area(nuts3.shp)
 
