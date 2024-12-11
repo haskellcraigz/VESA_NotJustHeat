@@ -60,9 +60,8 @@ hdi_long_nuts3 <- hdi_extracted_nuts3%>%
   mutate(year = as.numeric(year))
 
 # Keep only the values for 2014 to use in VESA calculation
-
 hdi_long_nuts3_2014 <- hdi_long_nuts3 %>%
-  filter(year == "HDI_2014")
+  filter(year == 2014)
 
 
 ## remove datafiles used for processing -------------
@@ -80,11 +79,12 @@ gdp <- gdp[[1]] %>%
 
 # load life-expectancy ----------------------------
 print("loading life expectancy...")
-life_expect <- get_eurostat("tgs00101") #life expectancy at birth from Eurostat
+life_expect <- get_eurostat("demo_r_mlifexp") #life expectancy 
 
 
 life_expect <- life_expect %>% 
-  filter(sex == "T") %>% 
+  filter(sex == "T", #not stratified by sex
+         age == "Y65") %>% #filter to life expect at age 65
   select(geo, TIME_PERIOD, values) %>% 
   mutate(year = lubridate::year(TIME_PERIOD), life_expectancy = values)
 

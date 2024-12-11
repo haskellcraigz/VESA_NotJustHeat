@@ -5,15 +5,15 @@
 #####################################
 
 # join all datasets  ---------
-#start with life-expectancy since this covers the full range of years
+#start with life-expectancy since this covers the full range of years 1990 - 2022
 all_df <- left_join(life_expect, gdp)
 all_df <- left_join(all_df, HAC_long)
 all_df <- left_join(all_df, hdi_long_nuts2, by = c("geo" = "NUTS_ID", "year"))
 
-#all_df <- all_df %>% mutate(geo = NUTS_ID)
-
-
-
+# keep only NUTS2 IDs for which we were able to calculate an HAC
+nuts2_HAC_ids <- unique(HAC_long$geo)
+all_df <- all_df %>%
+  filter(geo %in% nuts2_HAC_ids)
 
 
 # calculate correlation coefficients -------------
@@ -49,14 +49,17 @@ correlations <- all_df %>%
 # summarize correlations table
 mean_correlations <- correlations %>% 
   ungroup %>%
+  select(contains("spearman")) %>%
   summarize(across(everything(), ~ mean(.x, na.rm = TRUE)))
 
 min_correlations <- correlations %>% 
   ungroup %>%
+  select(contains("spearman")) %>%
   summarize(across(everything(), ~ min(.x, na.rm = TRUE)))
 
 max_correlations <- correlations %>% 
   ungroup %>%
+  select(contains("spearman")) %>%
   summarize(across(everything(), ~ max(.x, na.rm = TRUE)))
 
 

@@ -27,6 +27,8 @@ source("005_comparingA.R")
 
 # Computing V=ES and V=ESA -----------
 # based on nuts3_ESA_rank_comparison.R file
+# This script constructs the adaptive capacity multiplicative factor from HDI 
+# and calculates vulnerability for each nuts3 region 
 
 # Scripts for creating temperature figures -----------
 

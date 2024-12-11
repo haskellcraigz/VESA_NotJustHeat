@@ -112,13 +112,15 @@ nuts3 = nuts.shp %>%
 pop_nuts2_clean <- left_join(nuts2, pop_nuts2, by=c("geo"))
 
 pop_nuts2_clean <- pop_nuts2_clean %>%
-  filter(unit == 'NR') %>% #number
+  filter(unit == 'NR', sex == "T") %>% #number and not stratified by sex
   # filter(str_detect(geo, ".*[0-9][0-9].*")) %>% #keep NUTS2 regions only (2 digits)
   group_by(geo, TIME_PERIOD, sex) %>%
   pivot_wider(id_cols = c(geo, TIME_PERIOD, sex), names_from = age, values_from = values) %>%
   # match 5 year groups that are in NUTS3 (for older adults)
   rowwise() %>%
-  mutate(Y50_54 = sum(c_across(any_of(Y50_54)), na.rm = T),
+  mutate(year = lubridate::year(TIME_PERIOD),
+         
+         Y50_54 = sum(c_across(any_of(Y50_54)), na.rm = T),
          Y55_59 = sum(c_across(any_of(Y55_59)), na.rm = T),
          Y60_64 = sum(c_across(any_of(Y60_64)), na.rm = T),
          Y65_69 = sum(c_across(any_of(Y65_69)), na.rm = T),
@@ -175,12 +177,13 @@ Y_GE55 <- c("Y55-59", "Y60-64", "Y65-69", "Y70-74",
 pop_nuts3_clean <- left_join(nuts3, pop_nuts3, by=c("geo"))
 
 pop_nuts3_clean <- pop_nuts3 %>%
-  filter(unit == 'NR') %>% #number
+  filter(unit == 'NR', sex == "T") %>% #number and not stratified by sex
   # filter(str_detect(geo, ".*[0-9][0-9][0-9].*")) %>% #keep NUTS3 regions only (3 digits)
   group_by(geo, TIME_PERIOD, sex) %>%
   pivot_wider(id_cols = c(geo, TIME_PERIOD, sex), names_from = age, values_from = values) %>%
   rowwise() %>%
   mutate(
+    year = lubridate::year(TIME_PERIOD),
     # greater than or equal to ....
     Y_GE55 = sum(c_across(any_of(Y_GE55)), na.rm = T),
     Y_GE60 = sum(c_across(any_of(Y_GE60)), na.rm = T),
