@@ -6,18 +6,18 @@
 
 # join all datasets  ---------
 #start with life-expectancy since this covers the full range of years 1990 - 2022
-all_df <- left_join(life_expect, gdp)
-all_df <- left_join(all_df, HAC_long)
-all_df <- left_join(all_df, hdi_long_nuts2, by = c("geo" = "NUTS_ID", "year"))
+A_df <- left_join(life_expect, gdp)
+A_df <- left_join(A_df, HAC_long)
+A_df <- left_join(A_df, hdi_long_nuts2, by = c("geo" = "NUTS_ID", "year"))
 
 # keep only NUTS2 IDs for which we were able to calculate an HAC
 nuts2_HAC_ids <- unique(HAC_long$geo)
-all_df <- all_df %>%
+A_df <- A_df %>%
   filter(geo %in% nuts2_HAC_ids)
 
 
 # calculate correlation coefficients -------------
-correlations <- all_df %>%
+correlations <- A_df %>%
   group_by(year) %>%
   mutate(hac_hdi_pearson_cor = cor(HAC, HDI, method = "pearson",
                                    use =  "pairwise.complete.obs"),

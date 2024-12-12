@@ -26,13 +26,18 @@ source("004_adaptivecapacitymeasures.R")
 source("005_comparingA.R")
 
 # Computing V=ES and V=ESA -----------
-# based on nuts3_ESA_rank_comparison.R file
 # This script constructs the adaptive capacity multiplicative factor from HDI 
 # and calculates vulnerability for each nuts3 region 
+source("006_constructingVESA.R")
 
-# Scripts for creating temperature figures -----------
+# Scripts for creating main paper figures -----------
+# Script includes code for generating figure 1, 2 and 3
+source("007_mainfigures.R")
 
-
-# Scripts for creating xxx figures -------
+# Scripts for creating  SI figures -------
+# Script includes code for supplemental maps and plots on E, S and V, 
+# Code for the figures describing the development of the HAC index are contained
+# in HAC.R
+source("008_supplementalfigures.R")
 
 
