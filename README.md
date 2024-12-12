@@ -3,9 +3,9 @@ Repo supporting Not Just Heat: place-based vulnerability to temperature extremes
 
 Results from the paper are in `Figures/Main` and `Figures/SI`. Raw data is publicly available online.
 
-## How to replicate results
+# How to replicate results
 
-### File structure
+## File structure
 - Home directory contains the following scripts that load, clean, analyse data and generate figures
 ```
 [1] "000_packages.R"                 "001_europeshapefiles.R"         "002_temperaturedata.R"         
@@ -18,7 +18,7 @@ Results from the paper are in `Figures/Main` and `Figures/SI`. Raw data is publi
 - `Data/` directory for storing raw data 
 
 
-### Data sources
+## Data sources
 - Temperature data file "utciyearly_nuts3.csv" can be downloaded from Ronnkvist et al. (2025) TEE:temperature extremes europe available at [X]
 - HDI raster data from Kummu et al. (2018) available at [Dryad Data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.dk1j0)
 - NUTS shapefiles for the year 2021 (EPSG:4326) from Eurostat available at [Eurostat_NUTS](https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics)
@@ -34,7 +34,7 @@ The following files must be in the `Data/` folder for the code to run:
 ```
 
 
-### Replicating results
+## Replicating results
 1. Download raw data files listed under "Data sources" and add into `Data` folder. Note: pre-generated excel (.xlsx) files with the Health Adaptive Capacity (HAC) Index is already saved in this folder, code to replicate the HAC is available in the `HAC` folder. 
 2. Install packages listed in `000_packages.R`
 3. Generate HAC (OPTIONAL)
@@ -47,8 +47,7 @@ The following files must be in the `Data/` folder for the code to run:
 ## Computational environment
 ```
 R version 4.4.1 (2024-06-14)
-Platform: aarch64-apple-darwin20
-Running under: macOS Sonoma 14.5
+
 ```
 
 R packages and versions are specified below.
