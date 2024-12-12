@@ -97,13 +97,13 @@ Y_GE55 <- c("Y55", "Y56", "Y57", "Y58", "Y59",
 nuts2 = nuts.shp %>% 
   st_drop_geometry() %>% 
   filter(LEVL_CODE == 2) %>% 
-  select(NUTS_ID) %>% 
+  dplyr::select(NUTS_ID) %>% 
   rename(geo = NUTS_ID)
 
 nuts3 = nuts.shp %>% 
   st_drop_geometry() %>% 
   filter(LEVL_CODE == 3) %>% 
-  select(NUTS_ID) %>% 
+  dplyr::select(NUTS_ID) %>% 
   rename(geo = NUTS_ID)
 
 ### Calculate proportion ------------------------------

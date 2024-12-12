@@ -15,7 +15,7 @@ exclude_nuts3 <- c("EE009", "EE00A", #Estonia, missing population age data for a
 data <- left_join(utciyearly_nuts3, pop_nuts3_clean, 
                        by = c("NUTS_ID" = "geo", "year"))
 data <- left_join(data, 
-                       select(hdi_long_nuts3_2014, NUTS_ID, HDI), #HDI for 2014
+                       dplyr::select(hdi_long_nuts3_2014, NUTS_ID, HDI), #HDI for 2014
                   by = c("NUTS_ID")) 
 
 ## filter to time period 2014-2021
@@ -28,7 +28,7 @@ data <- data %>%
 VESA_yearly <- data %>%
   filter(!NUTS_ID %in% exclude_nuts3) %>% 
   #keep just E, S, A components for VESA 
-  select(NUTS_ID, year,
+  dplyr::select(NUTS_ID, year,
          utci_below_0, utci_above_26, #number of days defined as 'extreme' temp
          prop_GE65, prop_GE75, #proportion of population >65 and >75
          HDI) %>% #HDI for each nuts3 region taken from the 2014 value
@@ -51,7 +51,7 @@ VESA_all <- VESA_yearly %>%
          pop65rate_mean = mean(prop_GE65, na.rm = T),
          pop75rate_mean = mean(prop_GE75, na.rm = T)) %>%
   #select only summarized measures for entire study period
-  select(NUTS_ID, temp_extreme_cold, temp_extreme_hot, 
+  dplyr::select(NUTS_ID, temp_extreme_cold, temp_extreme_hot, 
          pop65rate_mean, pop75rate_mean,
          HDI, A, A_scaled) %>%
   unique() %>% #one row per nuts ID

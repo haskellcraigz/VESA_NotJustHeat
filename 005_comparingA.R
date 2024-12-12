@@ -43,23 +43,23 @@ correlations <- A_df %>%
                                   use =  "pairwise.complete.obs"),
          life_gdp_pearson_cor = cor(life_expectancy, GDP, method = "pearson",
                                  use =  "pairwise.complete.obs")) %>%
-  select(year, ends_with("cor")) %>%
+  dplyr::select(year, ends_with("cor")) %>%
   unique()
 
 # summarize correlations table
 mean_correlations <- correlations %>% 
   ungroup %>%
-  select(contains("spearman")) %>%
+  dplyr::select(contains("spearman")) %>%
   summarize(across(everything(), ~ mean(.x, na.rm = TRUE)))
 
 min_correlations <- correlations %>% 
   ungroup %>%
-  select(contains("spearman")) %>%
+  dplyr::select(contains("spearman")) %>%
   summarize(across(everything(), ~ min(.x, na.rm = TRUE)))
 
 max_correlations <- correlations %>% 
   ungroup %>%
-  select(contains("spearman")) %>%
+  dplyr::select(contains("spearman")) %>%
   summarize(across(everything(), ~ max(.x, na.rm = TRUE)))
 
 
@@ -84,8 +84,8 @@ hdi_nested <- hdi_nested %>%
 
 
 ## use cross tab file to check if all nuts2_id s are correctly NUTS2 level codes
-check <- left_join(select(hdi_nested, NUTS_ID, nuts2_id),
-                   select(crosstab, `Code 2021`, `NUTS level`),
+check <- left_join(dplyr::select(hdi_nested, NUTS_ID, nuts2_id),
+                   dplyr::select(crosstab, `Code 2021`, `NUTS level`),
                    by = c("nuts2_id" = "Code 2021"))
 
 #sum(check$`NUTS level` == 2, na.rm = T) #number of nuts2 IDS correctly identified as NUTS2 regions

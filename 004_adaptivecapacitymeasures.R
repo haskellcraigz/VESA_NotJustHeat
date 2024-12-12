@@ -74,7 +74,7 @@ gdp <- list(GDP_pc = get_eurostat("nama_10r_2gdp",
                                   filters = list(unit="EUR_HAB_EU27_2020")))
 # unlist and clean
 gdp <- gdp[[1]] %>%
-  select(geo, year = time, GDP = values)
+  dplyr::select(geo, year = time, GDP = values)
 
 
 # load life-expectancy ----------------------------
@@ -85,7 +85,7 @@ life_expect <- get_eurostat("demo_r_mlifexp") #life expectancy
 life_expect <- life_expect %>% 
   filter(sex == "T", #not stratified by sex
          age == "Y65") %>% #filter to life expect at age 65
-  select(geo, TIME_PERIOD, values) %>% 
+  dplyr::select(geo, TIME_PERIOD, values) %>% 
   mutate(year = lubridate::year(TIME_PERIOD), life_expectancy = values)
 
 
@@ -98,8 +98,8 @@ HAC_2017_2021 <- read_excel("Data/HAC_2017_2021.xlsx")
 
 ## clean ----------------
 # pull out means from each 5 year period dataset and join together
-HAC_year <- left_join(select(HAC_2012_2016, geo, starts_with("HAC")),
-                      select(HAC_2017_2021, geo, starts_with("HAC")))
+HAC_year <- left_join(dplyr::select(HAC_2012_2016, geo, starts_with("HAC")),
+                      dplyr::select(HAC_2017_2021, geo, starts_with("HAC")))
 
 HAC_long <- HAC_year %>%
   pivot_longer(cols = HAC_2012:HAC_2021, names_to = "year", values_to ="HAC") %>% 
