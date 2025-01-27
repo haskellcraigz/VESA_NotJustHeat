@@ -6,6 +6,9 @@
 
 # FIX:: Specify which NUTSID to include in analysis --------------
 exclude_nuts3 <- c("EE009", "EE00A", #Estonia, missing population age data for all years
+                   #UK missing data for all years
+                   "UKK24", "UKK25", "UKN0A", "UKN0B", "UKN0C", "UKN0D", "UKN0E",
+                   "UKN0F", "UKN0G",
                    #Norway, I believe these IDs are not currently in use, missing 
                    # most variables for most years
                    "NO0B1", "NO0B2") 
