@@ -1,7 +1,7 @@
 ######################################
 ## LOADING HDI AND OTHER MEASURES OF A
 ## Date Created: Nov. 25th 2024
-## Last Modified: Nov. 25th 2024
+## Last Modified: Jan. 31 2025
 #####################################
 # NOTES: code for correlation coefficients between HDI and other measures,
 # All data is at the NUTS2 level (for correlations)
@@ -82,11 +82,21 @@ print("loading life expectancy...")
 life_expect <- get_eurostat("demo_r_mlifexp") #life expectancy 
 
 
-life_expect <- life_expect %>% 
+life_expect_birth <- life_expect %>% 
+  filter(sex == "T", #not stratified by sex
+         age == "Y_LT1") %>% #filter to life expect at birth
+  dplyr::select(geo, TIME_PERIOD, values) %>% 
+  mutate(year = lubridate::year(TIME_PERIOD), life_expect_birth = values) %>%
+  select(geo, year, life_expect_birth)
+
+
+
+life_expect_65 <- life_expect %>% 
   filter(sex == "T", #not stratified by sex
          age == "Y65") %>% #filter to life expect at age 65
   dplyr::select(geo, TIME_PERIOD, values) %>% 
-  mutate(year = lubridate::year(TIME_PERIOD), life_expectancy = values)
+  mutate(year = lubridate::year(TIME_PERIOD), life_expect_65 = values) %>%
+  select(geo, year, life_expect_65)
 
 
 

@@ -1,12 +1,13 @@
 ######################################
 ## ANALYSIS & COMPARISON OF HDI AND OTHER MEASURES OF A
 ## Date Created: Nov. 25th 2024
-## Last Modified: Dec. 10th 2024
+## Last Modified: Jan. 31 2025
 #####################################
 
 # join all datasets  ---------
 #start with life-expectancy since this covers the full range of years 1990 - 2022
-A_df <- left_join(life_expect, gdp)
+A_df <- left_join(life_expect_65, gdp)
+A_df <- left_join(A_df, life_expect_birth)
 A_df <- left_join(A_df, HAC_long)
 A_df <- left_join(A_df, hdi_long_nuts2, by = c("geo" = "NUTS_ID", "year"))
 
@@ -31,17 +32,17 @@ correlations <- A_df %>%
                                     use =  "pairwise.complete.obs"),
          hdi_gdp_pearson_cor = cor(HDI, GDP, method = "pearson",
                                    use =  "pairwise.complete.obs"),
-         hac_life_pearson_cor = cor(HAC, life_expectancy, method = "pearson",
+         hac_life_pearson_cor = cor(HAC, life_expect_birth, method = "pearson",
                                  use =  "pairwise.complete.obs"),
-         hac_life_spearman_cor = cor(HAC, life_expectancy, method = "spearman",
+         hac_life_spearman_cor = cor(HAC, life_expect_birth, method = "spearman",
                                   use =  "pairwise.complete.obs"),
-         life_hdi_pearson_cor = cor(life_expectancy, HDI, method = "pearson",
+         life_hdi_pearson_cor = cor(life_expect_birth, HDI, method = "pearson",
                                  use =  "pairwise.complete.obs"),
-         life_hdi_spearman_cor = cor(life_expectancy, HDI, method = "spearman",
+         life_hdi_spearman_cor = cor(life_expect_birth, HDI, method = "spearman",
                                   use =  "pairwise.complete.obs"),
-         life_gdp_spearman_cor = cor(life_expectancy, GDP, method = "spearman",
+         life_gdp_spearman_cor = cor(life_expect_birth, GDP, method = "spearman",
                                   use =  "pairwise.complete.obs"),
-         life_gdp_pearson_cor = cor(life_expectancy, GDP, method = "pearson",
+         life_gdp_pearson_cor = cor(life_expect_birth, GDP, method = "pearson",
                                  use =  "pairwise.complete.obs")) %>%
   dplyr::select(year, ends_with("cor")) %>%
   unique()

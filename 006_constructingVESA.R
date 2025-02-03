@@ -11,7 +11,10 @@ exclude_nuts3 <- c("EE009", "EE00A", #Estonia, missing population age data for a
                    "UKN0F", "UKN0G",
                    #Norway, I believe these IDs are not currently in use, missing 
                    # most variables for most years
-                   "NO0B1", "NO0B2") 
+                   "NO0B1", "NO0B2",
+                   #missing at leats one year of temperature data
+                   "UKM66", #UK Shetland Islands
+                   "FRY10", "FRY20", "FRY30", "FRY40", "FRY50") #French departements d'outre mer
 
 # Join E, S, A at NUTS3 level into single data table -----------
 ## Join datasets together

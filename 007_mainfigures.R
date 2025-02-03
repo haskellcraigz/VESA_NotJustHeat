@@ -1,11 +1,11 @@
 ######################################
 ## PLOTTING MAPS OF E, S, A, and VESA
 ## Date Created: Dec. 10th 2024
-## Last Modified: Dec. 10th 2024
+## Last Modified: Feb 3rd 2025
 #####################################
 
 # export path [Update path if necessary to match local environment]-------
-export_path <- "~/Figures/"
+export_path <- "Figures/"
 
 
 # Figure 1 ------------------
@@ -19,9 +19,9 @@ fig1 <- ggplot() +
   scale_fill_gradient2(low = "#C599C3", high = "#370035",
                        mid = "#7C1A79", 
                        midpoint = 716,
-                       breaks = c(1, 716.5, 1429),
+                       breaks = c(1, 716.5, 1414),
                        labels = c("low \n (2)", "mid \n (766)", "high \n (1756)"),
-                       name="Relative Number of Days",
+                       name="Relative Total Number of Days of Exposure",
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
   theme_void() +
@@ -30,7 +30,7 @@ fig1 <- ggplot() +
                                     vjust = 1.7)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
-ggsave("~/Figures/e_total_map.png", plot = fig1,
+ggsave("Figures/e_total_map.png", plot = fig1,
        width = 10, height = 6.7, units = "cm")
 
 # for label parentheses 
@@ -53,12 +53,12 @@ fig2 <- ggplot() +
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#000000") +
   theme_void() +
-  theme(legend.position = c(0.25, 0.87),
-        legend.title = element_text(face = 2,
-                                    vjust = 1.7)) +
+  #theme(legend.position = c(0.25, 0.87),
+   #     legend.title = element_text(face = 2,
+    #                                vjust = 1.7)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
-ggsave("~/Figures/s_map.png", plot = fig2,
+ggsave("Figures/s_map.png", plot = fig2,
        width = 10, height = 6.7, units = "cm")
 
 # for label parentheses 
@@ -80,12 +80,12 @@ fig3 <- ggplot() +
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
   theme_void() +
-  theme(legend.position = c(0.25, 0.83),
-        legend.title = element_text(face = 2,
-                                    vjust = 1.5)) +
+  #theme(legend.position = c(0.25, 0.83),
+   #     legend.title = element_text(face = 2,
+    #                                vjust = 1.5)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
-ggsave("~/Figures/ves_map.png", plot = fig3,
+ggsave("Figures/ves_map.png", plot = fig3,
        width = 10, height = 6.7, units = "cm")
 
 # values for parentheses
@@ -106,17 +106,33 @@ fig4 <- ggplot() +
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
   theme_void() +
-  theme(legend.position = c(0.3, 0.89),
-        legend.title = element_text(face = 2,
-                                    vjust = 1.7)) +
+  #theme(legend.position = c(0.3, 0.89),
+   #     legend.title = element_text(face = 2,
+    #                                vjust = 1.7)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
-ggsave("~/Figures/e_cold_map.png", plot = fig4,
+ggsave("Figures/e_cold_map.png", plot = fig4,
        width = 10, height = 6.7, units = "cm")
 
 # for label parentheses 
 summary(VESA_all.shp$temp_extreme_cold)
 summary(VESA_all.shp$E_cold_rank)
+
+## cold vs hot boxplot -------------
+temp_comparison <- VESA_all %>%
+  select(NUTS_ID, temp_extreme_cold, temp_extreme_hot) %>%
+  pivot_longer(cols = c(temp_extreme_cold, temp_extreme_hot)) %>%
+  mutate(temperature = if_else(str_detect(name, "hot"), "heat", "cold")) %>%
+  mutate(days_per_year = value/7)
+
+
+  
+ggplot(data = temp_comparison) +
+  geom_boxplot(aes(x = temperature, y = days_per_year, fill = temperature), color = "black") +
+  scale_fill_manual(values = c("cold" = "#9CD0F9", "heat" = "#b04848")) +
+  theme(legend.position = "none") +
+  labs(x = NULL, y = NULL) +
+  theme_bw()
 
 
 # Figure 3 ---------------------
@@ -136,18 +152,18 @@ fig5 <- ggplot() +
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
   theme_void() +
-  theme(legend.position = c(0.25, 0.87),
-        legend.title = element_text(face = 2,
-                                    vjust = 1.7)) +
+  #theme(legend.position = c(0.25, 0.87),
+   #     legend.title = element_text(face = 2,
+    #                                vjust = 1.7)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
-ggsave("~/Figures/vesa_map.png", plot = fig5,
+ggsave("Figures/vesa_map.png", plot = fig5,
        width = 10, height = 6.7, units = "cm")
 
 summary(VESA_all.shp$E_S_A_over65)
 
 ## % Change with A -----------------
-## FIX::Since previous rendition of code, now 21 regions have a % change greater than 200%
+
 ## remove 2 outlier observations of A with a %change greater than 200%
 fig6 <- ggplot() + 
   geom_sf(data=country_eu.shp, fill="#DFD5CC", color="#B6A699") +
@@ -155,9 +171,9 @@ fig6 <- ggplot() +
           aes(fill=A_change_percent), color=NA) +
   scale_fill_gradient2(low = "#3d348b", mid = "#f5f5dc", high = "#f35b04",
                        midpoint = 0,
-                       breaks = c(-78, 0, 100),
-                       limits = c(-78, 100),
-                       labels = c("-80%", "0%", "100%"),
+                       breaks = c(-78, 0, 114),
+                       limits = c(-78, 114),
+                       labels = c("-80%", "0%", "115%"),
                        #values = c("#3d348b", "#7678ed", "#f9c784", "#f7b801", "#f35b04"), 
                        #breaks = c(-78, -32, 0, 25, 214),
                        name="% Change",
@@ -165,12 +181,12 @@ fig6 <- ggplot() +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
   theme_void() +
   # labs(title = "Vulnerability = E * S * A compared to V = E * S") +
-  theme(legend.position = c(0.25, 0.87),
-        legend.title = element_text(face = 2,
-                                    vjust = 1.7)) +
+  #theme(legend.position = c(0.25, 0.87),
+   #     legend.title = element_text(face = 2,
+    #                                vjust = 1.7)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
-ggsave("~/Figures/vesachange_map.png", plot = fig6,
+ggsave("Figures/vesachange_map.png", plot = fig6,
        width = 10, height = 6.7, units = "cm")
 
 ## Rank-rank comparison, A no A ------------------
@@ -196,7 +212,7 @@ fig7 <- ggplot(data = A_rank.shp) +
                      labels = c("V = ESA", "V = ES")) +
   labs(#title = "Change in Vulnerability with Addition of Adaptive Capacity",
        #subtitle = "V = ES (green); V = ESA (pink)",
-       x = "V (in person-days)") +
+       x = "V (in rate of vulnerable person days)") +
   theme_bw() +
   theme(axis.text.y = element_blank(),
         axis.title.y = element_blank(),
@@ -204,20 +220,20 @@ fig7 <- ggplot(data = A_rank.shp) +
         legend.title=element_blank()) + 
   guides(colour = guide_legend(override.aes = list(size=5)))
 
-ggsave("~/Figures/vesachange_graph.png", plot = fig7,
+ggsave("Figures/vesachange_graph.png", plot = fig7,
        width = 10, units = "cm")
 
-## FIX:: need to check units of this plot, total number of days but mean prop 65+
+
 # density of V before/after inclusion of A
 fig8 <- ggplot(data = A_rank.shp) +
   geom_density(aes(x = E_S_over65), color = "#01665e", lwd = 2) +
   geom_density(aes(x = E_S_A_over65), color = "#b9375e", lwd = 2) +
-  labs(x = "V (in person-days)") +
+  labs(x = "V (in rate of vulnerable person days)") +
   theme_bw() +
   theme(axis.text.y = element_blank(),
         axis.title.y = element_blank())
 
-ggsave("~/Figures/vesacompare_graph.png", plot = fig8,
+ggsave("Figures/vesacompare_graph.png", plot = fig8,
        width = 10, units = "cm")
 
 
