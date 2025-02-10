@@ -1,7 +1,7 @@
 ######################################
 ## SUPPLEMENTAL FIGURES
 ## Date Created: Dec. 10th 2024
-## Last Modified: Feb 3rd 2025
+## Last Modified: Feb 10th 2025
 #####################################
 
 # Distribution of heat and cold extreme -----------
@@ -67,9 +67,9 @@ ggsave("Figures/si_cold.png", plot = fig_si2,
 fig_si3 <- ggplot() + 
   geom_sf(data=country_eu.shp, fill="#DFD5CC", color="#B6A699") +
   geom_sf(data=VESA_all.shp, aes(fill=A_scaled), color=NA) +
-  scale_fill_gradient2(low =  "#ffe0e9", high = "#6f2138",  #"#b9375e"
-                       mid = "#ff7aa2", 
-                       midpoint = 0.8,
+  scale_fill_gradient2(low =  "#ffecf1", high = "#6f2138",  #"#b9375e"
+                       mid = "#cc6181", 
+                       midpoint = 1,
                        breaks = c(0.25, 1.25, 2.25, 3.25),
                        labels = c("0", "1 - EU Mean", "2", "3"),
                        name="Adaptive Capacity Multiplicative Factor, A",
@@ -120,8 +120,8 @@ fig_si4b <- ggplot(data = VESA_all) +
 fig_si4c <- ggplot() + 
   geom_sf(data=country_eu.shp, fill="#DFD5CC", color="#B6A699") +
   geom_sf(data=VESA_all.shp, aes(fill=pop65rate_mean), color=NA) +
-  scale_fill_gradient2(low = "#5d782e", mid = "#37481b",
-                       high = "#48421b",  
+  scale_fill_gradient2(low = "#ADBB96", high = "#37481b",
+                       mid = "#5d782e",  
                        midpoint = 0.25,
                        breaks = c(0.15, 0.25, 0.35),
                        #labels = c("10%", "20%", "30%"),
@@ -210,7 +210,7 @@ fig_si5c <- ggplot() +
   geom_sf(data=A_avg.shp, aes(fill=mean_hac), color=NA) +
   scale_fill_gradient2(low =  "#c9d1e5", high = "#21386f",  
                        mid = "#7aa2ff", 
-                       midpoint = 60,
+                       midpoint = 40,
                        breaks = c(20, 40, 60),
                        name="Mean HDI (2012-2021)",
                        na.value="#FFFFFE") +
