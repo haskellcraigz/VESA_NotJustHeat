@@ -18,10 +18,10 @@ fig1 <- ggplot() +
   geom_sf(data=VESA_all.shp, aes(fill=E_total_rank), color=NA) +
   scale_fill_gradient2(low = "#C599C3", high = "#370035",
                        mid = "#7C1A79", 
-                       midpoint = 716,
-                       breaks = c(1, 716.5, 1414),
-                       labels = c("low \n (2)", "mid \n (766)", "high \n (1756)"),
-                       name="Relative Total Number of Days of Exposure",
+                       midpoint = 706,
+                       breaks = c(1, 706, 1412),
+                       labels = c("low \n (0)", "mid \n (117)", "high \n (251)"),
+                       name="Average Annual Number of Days of Exposure",
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
   theme_void() +
@@ -30,8 +30,7 @@ fig1 <- ggplot() +
                                     vjust = 1.7)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
-ggsave("Figures/e_total_map.png", plot = fig1,
-       width = 10, height = 6.7, units = "cm")
+ggsave("Figures/e_total_map.png", plot = fig1)
 
 # for label parentheses 
 summary(VESA_all.shp$temp_extreme_total)
@@ -39,7 +38,7 @@ summary(VESA_all.shp$E_total_rank)
 
 ## S ---------------------------------- 
 
-#summary(data_shp$pop65rate_mean)
+summary(VESA_all.shp$S_over65_rank)
 
 fig2 <- ggplot() + 
   geom_sf(data=country_eu.shp, fill="#DFD5CC", color="#B6A699") +
@@ -47,15 +46,15 @@ fig2 <- ggplot() +
   scale_fill_gradient2(low = "#ADBB96", high = "#253012",
                        mid = "#5d782e", 
                        midpoint = 716,
-                       breaks = c(1, 716.5, 1429),
-                       labels = c("low \n (27)", "mid \n (204)", "high \n (351)"),
+                       breaks = c(1, 706, 1412),
+                       labels = c("low \n (6%)", "mid \n (20%)", "high \n (32%)"),
                        name="Aging Population",
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#000000") +
   theme_void() +
-  #theme(legend.position = c(0.25, 0.87),
-   #     legend.title = element_text(face = 2,
-    #                                vjust = 1.7)) +
+ # theme(legend.position = c(0.25, 0.87),
+  #      legend.title = element_text(face = 2,
+   #                                 vjust = 1.7)) +
   coord_sf(xlim = c(-7.9, 35), ylim = c(35, 70))
 
 ggsave("Figures/s_map.png", plot = fig2,
@@ -74,8 +73,8 @@ fig3 <- ggplot() +
   scale_fill_gradient2(low = "#01665e", high = "#8c510a",
                        mid = "#f6e8c3", 
                        midpoint = 716,
-                       breaks = c(1, 716.5, 1429),
-                       labels = c("low \n (0.29)", "mid \n (156)", "high \n (405)"),
+                       breaks = c(1, 706, 1412),
+                       labels = c("low", "mid", "high"),
                        name="Vulnerability",
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
@@ -100,9 +99,9 @@ fig4 <- ggplot() +
   scale_fill_gradient2(low = "#9CD0F9", high = "#1D5179",
                        mid = "#3aa2f4", 
                        midpoint = 716,
-                       breaks = c(1, 716.5, 1429),
-                       labels = c("low \n (0.13)", "mid \n (99)", "high \n (220)"),
-                       name="Relative Number of Days",
+                       breaks = c(1, 706, 1412),
+                       labels = c("low \n (0)", "mid \n (100)", "high \n (250)"),
+                       name="Average Annual Number of Cold Days",
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +
   theme_void() +
@@ -120,10 +119,10 @@ summary(VESA_all.shp$E_cold_rank)
 
 ## cold vs hot boxplot -------------
 temp_comparison <- VESA_all %>%
-  select(NUTS_ID, temp_extreme_cold, temp_extreme_hot) %>%
+  select(nuts_id, temp_extreme_cold, temp_extreme_hot) %>%
   pivot_longer(cols = c(temp_extreme_cold, temp_extreme_hot)) %>%
   mutate(temperature = if_else(str_detect(name, "hot"), "heat", "cold")) %>%
-  mutate(days_per_year = value/7)
+  mutate(days_per_year = value/10)
 
 
   
@@ -146,8 +145,8 @@ fig5 <- ggplot() +
   scale_fill_gradient2(low = "#01665e", high = "#8c510a",
                        mid = "#f6e8c3", 
                        midpoint = 716,
-                       breaks = c(1, 716.5, 1429),
-                       labels = c("low (0.37)", "mid (137)", "high (428)"),
+                       breaks = c(1, 706, 1412),
+                       labels = c("low", "mid", "high"),
                        name="Vulnerability",
                        na.value="#FFFFFE") +
   geom_sf(data=country_eu_sam.shp, fill=NA, color="#743A28") +

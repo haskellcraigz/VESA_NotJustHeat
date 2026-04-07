@@ -1,7 +1,7 @@
 ######################################
 ## CONSTRUCTION AND COMPARISON OF V=ES AND V=ESA
 ## Date Created: Dec. 10th 2024
-## Last Modified: Dec. 10th 2024
+## Last Modified: Apr 7th 2025
 #####################################
 
 # FIX:: Specify which NUTSID to include in analysis --------------
@@ -18,23 +18,21 @@ exclude_nuts3 <- c("EE009", "EE00A", #Estonia, missing population age data for a
 
 # Join E, S, A at NUTS3 level into single data table -----------
 ## Join datasets together
-data <- left_join(utciyearly_nuts3, pop_nuts3_clean, 
-                       by = c("NUTS_ID" = "geo", "year"))
+data <- left_join(utci_temperature_data, pop_nuts3_clean, 
+                       by = c("nuts_id" = "geo", "year"))
 data <- left_join(data, 
                        dplyr::select(hdi_long_nuts3_2014, NUTS_ID, HDI), #HDI for 2014
-                  by = c("NUTS_ID")) 
+                  by = c("nuts_id" = "NUTS_ID")) 
 
-## filter to time period 2014-2021
-data <- data %>%
-  filter(year >=2014 & year <= 2021) 
+
 
 # create VESA --------------------------
 
 ## yearly components of VESA
 VESA_yearly <- data %>%
-  filter(!NUTS_ID %in% exclude_nuts3) %>% 
+  filter(!nuts_id %in% exclude_nuts3) %>% 
   #keep just E, S, A components for VESA 
-  dplyr::select(NUTS_ID, year,
+  dplyr::select(nuts_id, year,
          utci_below_0, utci_above_26, #number of days defined as 'extreme' temp
          prop_GE65, prop_GE75, #proportion of population >65 and >75
          HDI) %>% #HDI for each nuts3 region taken from the 2014 value
@@ -46,8 +44,8 @@ VESA_yearly <- data %>%
 
 # combined V over entire period 2014-2021 for study region 
 VESA_all <- VESA_yearly %>%
-  filter(NUTS_ID %in% hdi_long_nuts3_2014$NUTS_ID) %>%
-  group_by(NUTS_ID) %>%
+  filter(nuts_id %in% hdi_long_nuts3_2014$NUTS_ID) %>% #keep only regions w HDI
+  group_by(nuts_id) %>%
   #Sum/average over the entire period
   mutate(temp_extreme_cold = sum(utci_below_0),
          temp_extreme_hot = sum(utci_above_26),
@@ -57,7 +55,7 @@ VESA_all <- VESA_yearly %>%
          pop65rate_mean = mean(prop_GE65, na.rm = T),
          pop75rate_mean = mean(prop_GE75, na.rm = T)) %>%
   #select only summarized measures for entire study period
-  dplyr::select(NUTS_ID, temp_extreme_cold, temp_extreme_hot, 
+  dplyr::select(nuts_id, temp_extreme_cold, temp_extreme_hot, 
          pop65rate_mean, pop75rate_mean,
          HDI, A, A_scaled) %>%
   unique() %>% #one row per nuts ID
@@ -90,7 +88,10 @@ VESA_all$E_S_A_over65_rank = rank(VESA_all$E_S_A_over65)
 
 
 # Join dataset to shapefile for subsequent plots -----------------
-VESA_all.shp <- left_join(nuts3.shp, VESA_all)
+VESA_all.shp <- left_join(nuts3.shp, VESA_all, by = c("NUTS_ID" = "nuts_id")) #keeps geometry for mapping
+
+#filter out NUTS3 with missing data
+VESA_all.shp <- VESA_all.shp %>% filter(!NUTS_ID %in% exclude_nuts3)
 
 
 
